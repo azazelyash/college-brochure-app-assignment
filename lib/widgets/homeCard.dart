@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:skygoal_assignment/screens/collegelistscreen.dart';
 
 class CollegeCardHome extends StatefulWidget {
   const CollegeCardHome({
@@ -81,7 +82,14 @@ class _CollegeCardHomeState extends State<CollegeCardHome> {
                       SizedBox(
                         width: double.infinity,
                         child: FloatingActionButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CollegeListScreen(),
+                              ),
+                            );
+                          },
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(15),
