@@ -1,7 +1,10 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:line_icons/line_icons.dart';
 
-class CollegeCardHome extends StatelessWidget {
+class CollegeCardHome extends StatefulWidget {
   const CollegeCardHome({
     super.key,
     required this.imageUrl,
@@ -14,18 +17,91 @@ class CollegeCardHome extends StatelessWidget {
   final String collegeNum;
 
   @override
+  State<CollegeCardHome> createState() => _CollegeCardHomeState();
+}
+
+class _CollegeCardHomeState extends State<CollegeCardHome> {
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0),
       child: GestureDetector(
+        /* ------------------------------ Swipe Up Menu ----------------------------- */
+
         onTap: () {
           showModalBottomSheet(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30.0),
+                topRight: Radius.circular(30.0),
+              ),
+            ),
             context: context,
             builder: (BuildContext context) {
               return SizedBox(
-                height: 400,
-                child: Center(
-                  child: Text("HEllo"),
+                // height: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 24,
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Sort by",
+                            style: GoogleFonts.lato(
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff0E3C6E),
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Icon(
+                              Icons.close,
+                              color: Colors.black45,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      const Divider(),
+                      const Expanded(
+                        child: RadioButtonWidget(),
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FloatingActionButton(
+                          onPressed: () {},
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(15),
+                            ),
+                          ),
+                          backgroundColor: const Color(0xff0E3C6E),
+                          child: Text(
+                            "Sort",
+                            style: GoogleFonts.lato(
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.normal,
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
@@ -36,14 +112,14 @@ class CollegeCardHome extends StatelessWidget {
             /* --------------------------- Bottom Image Layer --------------------------- */
 
             Container(
-              margin: EdgeInsets.all(0),
+              margin: const EdgeInsets.all(0),
               height: 150,
               width: 350,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: AssetImage(
-                    imageUrl,
+                    widget.imageUrl,
                   ),
                 ),
                 borderRadius: const BorderRadius.all(
@@ -55,7 +131,7 @@ class CollegeCardHome extends StatelessWidget {
             /* -------------------------- Black Gradient Layer -------------------------- */
 
             Container(
-              margin: EdgeInsets.all(0),
+              margin: const EdgeInsets.all(0),
               height: 150,
               width: 350,
               decoration: BoxDecoration(
@@ -98,11 +174,11 @@ class CollegeCardHome extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     Text(
-                      collegeText,
+                      widget.collegeText,
                       style: GoogleFonts.lato(
                         textStyle: const TextStyle(
                           fontWeight: FontWeight.w500,
@@ -136,7 +212,7 @@ class CollegeCardHome extends StatelessWidget {
                           textBaseline: TextBaseline.alphabetic,
                           children: [
                             Text(
-                              collegeNum,
+                              widget.collegeNum,
                               style: GoogleFonts.lato(
                                 textStyle: const TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -184,4 +260,157 @@ class MyCustomCliper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
+}
+
+enum SortBy { btech, barch, pharma, law, management }
+
+class RadioButtonWidget extends StatefulWidget {
+  const RadioButtonWidget({super.key});
+
+  @override
+  State<RadioButtonWidget> createState() => _RadioButtonWidgetState();
+}
+
+class _RadioButtonWidgetState extends State<RadioButtonWidget> {
+  SortBy? _character = SortBy.btech;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          ListTile(
+            iconColor: Colors.black,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+            title: Text(
+              'Bachelors of Technology',
+              style: GoogleFonts.lato(
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            leading: const Icon(LineIcons.graduationCap),
+            trailing: Radio<SortBy>(
+              value: SortBy.btech,
+              activeColor: const Color(0xff0E3C6E),
+              groupValue: _character,
+              onChanged: (SortBy? value) {
+                setState(() {
+                  _character = value;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            iconColor: Colors.black,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+            title: Text(
+              'Bachelors of Architecture',
+              style: GoogleFonts.lato(
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            leading: const Icon(LineIcons.drawPolygon),
+            trailing: Radio<SortBy>(
+              value: SortBy.barch,
+              activeColor: const Color(0xff0E3C6E),
+              groupValue: _character,
+              onChanged: (SortBy? value) {
+                setState(() {
+                  _character = value;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            iconColor: Colors.black,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+            title: Text(
+              'Pharma',
+              style: GoogleFonts.lato(
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            leading: const Icon(LineIcons.microscope),
+            trailing: Radio<SortBy>(
+              value: SortBy.pharma,
+              activeColor: const Color(0xff0E3C6E),
+              groupValue: _character,
+              onChanged: (SortBy? value) {
+                setState(() {
+                  _character = value;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            iconColor: Colors.black,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+            title: Text(
+              'Law',
+              style: GoogleFonts.lato(
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            leading: const Icon(LineIcons.balanceScale),
+            trailing: Radio<SortBy>(
+              value: SortBy.law,
+              activeColor: const Color(0xff0E3C6E),
+              groupValue: _character,
+              onChanged: (SortBy? value) {
+                setState(() {
+                  _character = value;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            iconColor: Colors.black,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+            title: Text(
+              'Management',
+              style: GoogleFonts.lato(
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            leading: const Icon(LineIcons.chalkboardTeacher),
+            trailing: Radio<SortBy>(
+              value: SortBy.management,
+              activeColor: const Color(0xff0E3C6E),
+              groupValue: _character,
+              onChanged: (SortBy? value) {
+                setState(() {
+                  _character = value;
+                });
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
