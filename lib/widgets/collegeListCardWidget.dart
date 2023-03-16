@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CollegeListCardWidget extends StatelessWidget {
-  const CollegeListCardWidget({
-    super.key,
-  });
+class CollegeListCardWidget extends StatefulWidget {
+  const CollegeListCardWidget({super.key});
+
+  @override
+  State<CollegeListCardWidget> createState() => _CollegeListCardWidgetState();
+}
+
+class _CollegeListCardWidgetState extends State<CollegeListCardWidget> {
+  bool _isPressed = false;
+  IconData bookmarkIcon = Icons.bookmark_outline;
+
+  void updateUI() {
+    if (_isPressed) {
+      setState(() {
+        bookmarkIcon = Icons.bookmark;
+      });
+    } else {
+      setState(() {
+        bookmarkIcon = Icons.bookmark_outline;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -224,6 +242,42 @@ class CollegeListCardWidget extends StatelessWidget {
                     ),
                   )
                 ],
+              ),
+
+              /* --------------------- Share Button & Bookmark Button --------------------- */
+
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 12,
+                  right: 12,
+                  top: 12,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FloatingActionButton.small(
+                      backgroundColor: Colors.white,
+                      onPressed: () {},
+                      child: const Icon(
+                        Icons.share,
+                        color: const Color(0xff0E3C6E),
+                      ),
+                    ),
+                    FloatingActionButton.small(
+                      backgroundColor: Colors.white,
+                      onPressed: () {
+                        setState(() {
+                          _isPressed ? _isPressed = false : _isPressed = true;
+                          updateUI();
+                        });
+                      },
+                      child: Icon(
+                        bookmarkIcon,
+                        color: const Color(0xff0E3C6E),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
