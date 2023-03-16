@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -5,6 +7,8 @@ import 'package:line_icons/line_icons.dart';
 import 'package:skygoal_assignment/pages/account.dart';
 import 'package:skygoal_assignment/pages/saved.dart';
 import 'package:skygoal_assignment/pages/search.dart';
+import 'package:skygoal_assignment/screens/homepage.dart';
+import 'package:skygoal_assignment/widgets/collegeListCardWidget.dart';
 import 'package:skygoal_assignment/widgets/filterbuttons.dart';
 
 class CollegeListScreen extends StatefulWidget {
@@ -15,13 +19,14 @@ class CollegeListScreen extends StatefulWidget {
 }
 
 class _CollegeListScreenState extends State<CollegeListScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 4;
 
   final List<Widget> _pages = [
     const SearchPage(),
     const SavedPage(),
     const SavedPage(),
-    const AccountPage()
+    const AccountPage(),
+    const collegeListWidget()
   ];
 
   @override
@@ -164,39 +169,67 @@ class _CollegeListScreenState extends State<CollegeListScreen> {
 
       /* ---------------------------------- Body ---------------------------------- */
 
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 24.0),
-        child: Column(
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              physics: BouncingScrollPhysics(),
-              child: Row(
+      body: const collegeListWidget(),
+    );
+  }
+}
+
+class collegeListWidget extends StatelessWidget {
+  const collegeListWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 24.0),
+      child: Column(
+        children: [
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            physics: BouncingScrollPhysics(),
+            child: Row(
+              children: const [
+                FilterButtons(
+                  title: "JSS Banglore",
+                ),
+                FilterButtons(
+                  title: "JSS NOIDA",
+                ),
+                FilterButtons(
+                  title: "IIT Delhi",
+                ),
+                FilterButtons(
+                  title: "HBTI Kanpur",
+                ),
+                FilterButtons(
+                  title: "NIT Warangal",
+                ),
+                FilterButtons(
+                  title: "NIT Trichy",
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
                 children: const [
-                  FilterButtons(
-                    title: "JSS Banglore",
-                  ),
-                  FilterButtons(
-                    title: "JSS NOIDA",
-                  ),
-                  FilterButtons(
-                    title: "IIT Delhi",
-                  ),
-                  FilterButtons(
-                    title: "HBTI Kanpur",
-                  ),
-                  FilterButtons(
-                    title: "NIT Warangal",
-                  ),
-                  FilterButtons(
-                    title: "NIT Trichy",
-                  ),
+                  CollegeListCardWidget(),
+                  CollegeListCardWidget(),
+                  CollegeListCardWidget(),
+                  CollegeListCardWidget(),
+                  CollegeListCardWidget(),
+                  CollegeListCardWidget(),
                 ],
               ),
             ),
-            Text("Hello"),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
