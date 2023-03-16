@@ -79,6 +79,9 @@ class _CollegeCardHomeState extends State<CollegeCardHome> {
                       const Expanded(
                         child: RadioButtonWidget(),
                       ),
+
+                      /* ------------------------------- Sort Button ------------------------------ */
+
                       SizedBox(
                         width: double.infinity,
                         child: FloatingActionButton(
